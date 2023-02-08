@@ -1,0 +1,1 @@
+Repositório dedicado a um jogo de cartas para jogar com amigos 
