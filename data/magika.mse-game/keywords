@@ -156,22 +156,22 @@ keyword:
 	keyword: Voar
 	match: Voar
 	mode: core
-	reminder: {this_or_that("creature", upper:true)} não pode ser bloqueada por criaturas que não tenham Voar.
+	reminder: Essa criatura não pode ser bloqueada por criaturas que não tenham Voar.
 keyword:
 	keyword: Ataque rápido
 	match: Ataque rápido
 	mode: core
-	reminder: {this_or_that("creature", upper:true)} ataca antes de oponentes sem Ataque rápido.
+	reminder: Essa criatura ataca antes de oponentes sem Ataque rápido.
 keyword:
 	keyword: Atropelar
 	match: Atropelar
 	mode: core
-	reminder: {this_or_that("creature", upper:true)} ao exceder a vida de uma criatura em combate, o dano extra pode ser aplicado ao oponente.
+	reminder: Essa criatura ao exceder a vida de uma criatura em combate, o dano extra pode ser aplicado ao oponente.
 keyword:
 	keyword: Ímpeto
 	match: Ímpeto
 	mode: core
-	reminder: {this_or_that("creature", upper:true)} pode atacar e <sym>T</sym> assim que entra em campo.
+	reminder: Essa criatura pode atacar e <sym>T</sym> assim que entra em campo.
 keyword:
 	keyword: Venenoso
 	match: Venenoso
@@ -181,22 +181,22 @@ keyword:
 	keyword: Sentinela
 	match: Sentinela
 	mode: core
-	reminder: {this_or_that("creature", upper:true)} não vira ao atacar.
+	reminder: Essa criatura não vira ao atacar.
 keyword:
 	keyword: Preciso
 	match: Preciso
 	mode: core
-	reminder: {this_or_that("creature", upper:true)} pode atacar criaturas inimigas.
+	reminder: Essa criatura pode atacar criaturas inimigas.
 keyword:
 	keyword: Escudo
 	match: Escudo
 	mode: core
-	reminder: {this_or_that("creature", upper:true)} fica imune ao primiro dano que receber.
+	reminder: Essa criatura fica imune ao primiro dano que receber.
 keyword:
 	keyword: Furtividade
 	match: Furtividade
 	mode: core
-	reminder: {this_or_that("creature", upper:true)} não pode ser alvejada ou bloqueada até que sofra dano ou ataque.
+	reminder: Essa criatura não pode ser alvejada ou bloqueada até que sofra dano ou ataque.
 keyword:
 	keyword: Lampejo
 	match: Lampejo
@@ -230,7 +230,7 @@ keyword:
 	#keyword: Landwalk
 	#match: <atom-param>prefix</atom-param>walk
 	#mode: old
-	#reminder: {this_or_that("creature", upper:true)} can't be blocked as long as defending player controls a {if match(param1.value, match: " land$") or contains(param1.value, match: "Snow") or contains(param1.value, match:"Basic") or contains(param1.value, match:"Legendary") then "{to_lower(param1)}" else "{param1}"}.
+	#reminder: Essa criatura can't be blocked as long as defending player controls a {if match(param1.value, match: " land$") or contains(param1.value, match: "Snow") or contains(param1.value, match:"Basic") or contains(param1.value, match:"Legendary") then "{to_lower(param1)}" else "{param1}"}.
 #keyword:
 	#keyword: Protection from
 	#match: Protection from <atom-param>name</atom-param>
@@ -250,7 +250,7 @@ keyword:
 	#keyword: Double strike
 	#match: Double strike
 	#mode: core
-	#reminder: {this_or_that("creature", upper:true)} deals both first-strike and regular combat damage.
+	#reminder: Essa criatura deals both first-strike and regular combat damage.
 #keyword:
 	#keyword: Provoke
 	#match: Provoke
