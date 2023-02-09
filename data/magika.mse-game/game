@@ -1,0 +1,19 @@
+﻿mse version: 0.0.1
+short name: Magika
+full name: Magika A Coleta
+installer group: Magika/game files
+icon: icon.png
+position hint: 04
+
+version: 2023-02-09
+
+############################################################## The script
+
+init script: include file: script
+
+############################################################## 
+include file: keywords
+
+##Based on Zaratustra & Pichoro's Script
+#.pan
+depends on:

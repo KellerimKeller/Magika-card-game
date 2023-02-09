@@ -1,0 +1,259 @@
+﻿has keywords: true
+
+############################################################## Keyword mode
+
+keyword mode:
+	name: core
+	description: Palavras-chave principais 
+
+############################################################## Keyword parameter types
+
+keyword parameter type:
+	name: mana
+	match: [HSVCTQXYZI0-9WUBRG/|]+
+	refer script:
+		name: normal
+		description: No changes made
+		script: \{{input}\}
+	refer script:
+		name: mana value
+		description: Converts mana to number
+		# "0" left in so users can easily see how to edit script.
+		script: \{cmc({input})\}
+	refer script:
+		name: colored mana cost
+		description: Converts mana to number of colored mana
+		# "0" left in so users can easily see how to edit script.
+		script: \{colored_mana({input})\}
+
+# By pichoro and bunnierein
+keyword parameter type:
+	name: cost
+	match: [ ][HSVECTQXYZI0-9WUBRG/|]*|[-—][^(\r\n]*
+	separator before is: [ —-]
+	separator after is: [.]
+	optional: false
+	# note: the separator is part of match
+	refer script:
+		name: normal
+		description: When using mana only costs, doesn't include anything extra in the reminder text
+		script: \{{input}\}
+	refer script:
+		name: add "pay an additional " for mana costs
+		description: When using mana only costs, words the reminder text as "pay an additional <cost>"
+		script: \{for_mana_costs(add:"pay an additional ", {input})\}
+	refer script:
+		name: add "pay " for mana costs
+		description: When using mana only costs, words the reminder text as "pay <cost>"
+		script: \{for_mana_costs(add:"pay ", {input})\}
+	separator script: long_dash()
+
+keyword parameter type:
+	name: number
+	match: [XYZ0-9]+
+	refer script:
+		name: normal
+		description: (1,2,3)
+		script: \{{input}\}
+	refer script:
+		name: as words
+		description: (one, two, three)
+		script: \{english_number({input})\}
+	refer script:
+		name: as words, use "a" for 1
+		description: (a, two, three)
+		script: \{english_number_a({input})\}
+	refer script:
+		name: as words, use "" for 1
+		description: (, two, three)
+		script: \{english_number_multiple({input})\}
+	refer script:
+		name: as ordinal words
+		description: (first, second, third)
+		script: \{english_number_ordinal({input})\}
+
+keyword parameter type:
+	name: action
+	match: [^(:\n]+
+	separator after is: [.]
+	reminder script: alternative_cost()
+
+keyword parameter type:
+	name: one_word
+	match: [A-Za-z0-9]+
+keyword parameter type:
+	name: p
+	match: [p](?!ped)(?!ment)
+keyword parameter type:
+	name: name
+	match: ([^(.:;\n—]+|[ ])
+	#match: [A-Za-z0-9 ',’"“”!?]+
+	refer script:
+		name: normal
+		description: No changes made.
+		script: \{{input}\}
+	refer script:
+		name: singular
+		description: Removes plurality from words.
+		script: \{english_singular({input})\}
+	refer script:
+		name: separate words with "and/or"
+		description: Changes spaces to " and/or ". "Elf Warrior" becomes "Elf and/or Warrior".
+		script: \{separate_words(spacer: " and/or ", {input})\}
+	refer script:
+		name: separate words with "or"
+		description: Changes spaces to " or ". "Elf Warrior" becomes "Elf or Warrior".
+		script: \{separate_words(spacer: " or ", {input})\}
+
+keyword parameter type:
+	name: prefix
+	description: Prefix for things like "<something>walk"
+	optional: false
+#	match: [A-Z][a-z, ]*([A-Z][a-z, ]*\xEB00) # commented out because it stopped prefix param from working, version below allows all "walks", including "Dame Judi Denchwalk", doesn't trigger #in middle of sentences, and doesn't trigger in chains of keywords.
+#	match: [A-Z][A-Z,a-z’ ]* # commented out due to still not working
+	match: [^(.,”":;\n—]+
+	example: Forest
+keyword parameter type:
+	name: english_number
+	match: (up to )?(a|an|one|two|three|four|five|six|seven|eight|nine|ten| )
+	refer script:
+		name: as a numeral
+		description: Changes english number to numeral
+		script: \{digital_number({input}.value)\}
+keyword parameter type:
+	name: a
+	match: [an?]*
+keyword parameter type:
+	name: *s
+	match: [a-z]s?
+keyword parameter type:
+	name: nonland
+	match: ( n?o?n?l?a?n?d? ?)
+keyword parameter type:
+	name: mill
+	match: mills?
+keyword parameter type:
+	name: iterate
+	match: [., ](t?w?i?c?e?|t?h?r?e?e?|f?o?u?r?|f?i?v?e?|s?i?x?|s?e?v?e?n?|X?)?( ?t?i?m?e?s?)?
+	refer script:
+		name: as words
+		description: Use the iteration word (twice, three times, etc)
+		script: \{iterate_fix({input})\}
+	refer script:
+		name: as number
+		description: Use the iteration word (twice, three times, etc)
+		script: \{iterate_digits({input})\}
+keyword parameter type:
+	name: energy
+	match: [^>]([Pp]ays?( an additional| any amount of)?|gets?( that many)?) [E]+
+	separator before is: [^>]([Pp]ays?( an additional| any amount of)?|gets?( that many)?)[ ]
+	reminder script: length(input)
+
+############################# Todas as palavras-chave de magika
+
+# Alpha
+keyword:
+	keyword: Voar
+	match: Voar
+	mode: core
+	reminder: {this_or_that("creature", upper:true)} não pode ser bloqueada por criaturas que não tenham Voar.
+keyword:
+	keyword: Ataque rápido
+	match: Ataque rápido
+	mode: core
+	reminder: {this_or_that("creature", upper:true)} ataca antes de oponentes sem Ataque rápido.
+keyword:
+	keyword: Atropelar
+	match: Atropelar
+	mode: core
+	reminder: {this_or_that("creature", upper:true)} ao exceder a vida de uma criatura em combate, o dano extra pode ser aplicado ao oponente.
+keyword:
+	keyword: Ímpeto
+	match: Ímpeto
+	mode: core
+	reminder: {this_or_that("creature", upper:true)} pode atacar e <sym>T</sym> assim que entra em campo.
+keyword:
+	keyword: Venenoso
+	match: Venenoso
+	mode: core
+	reminder: Criaturas que sofrem dano de combate dessa criatura são destruídas.
+keyword:
+	keyword: Sentinela
+	match: Sentinela
+	mode: core
+	reminder: {this_or_that("creature", upper:true)} não vira ao atacar.
+keyword:
+	keyword: Preciso
+	match: Preciso
+	mode: core
+	reminder: {this_or_that("creature", upper:true)} pode atacar criaturas inimigas.
+keyword:
+	keyword: Escudo
+	match: Escudo
+	mode: core
+	reminder: {this_or_that("creature", upper:true)} fica imune ao primiro dano que receber.
+keyword:
+	keyword: Furtividade
+	match: Furtividade
+	mode: core
+	reminder: {this_or_that("creature", upper:true)} não pode ser alvejada ou bloqueada até que sofra dano ou ataque.
+keyword:
+	keyword: Lampejo
+	match: Lampejo
+	mode: core
+	reminder: esta carta pode ser conjurada como intantânia.
+
+
+
+
+
+#keyword:
+	#keyword: Flanking
+	#match: Flanking
+	#mode: expert
+	#reminder: Whenever a creature without flanking blocks {this_or_that("creature")}, the blocking creature gets -1/-1 until end of turn.
+#keyword:
+	#keyword: Regeneration
+	#match: Regenerate
+	#mode: action
+	#reminder: The next time {this_or_that("permanent")} would be destroyed this turn, it isn’t.{if has_pt() then " Instead tap it, remove all damage from it, and remove it from combat." else " Instead tap it."}
+#keyword:
+	#keyword: Fading
+	#match: Fading <atom-param>number</atom-param>
+	#mode: expert
+	#reminder: This {if has_pt() then "creature" else "permanent"} enters the battlefield with {english_number_a(param1)} fade counter(s) on it. At the beginning of your upkeep, remove a fade counter from it. If you can’t, sacrifice it.
+#keyword:
+	#keyword: Banding
+	#match: Banding
+	#mode: old
+	#reminder: Any creatures with banding, and up to one without, can attack in a band. Bands are blocked as a group. If any creatures with banding you control are blocking or being blocked by a creature, you divide that creature’s combat damage, not its controller, among any of the creatures it’s being blocked by or is blocking.
+	#keyword: Landwalk
+	#match: <atom-param>prefix</atom-param>walk
+	#mode: old
+	#reminder: {this_or_that("creature", upper:true)} can't be blocked as long as defending player controls a {if match(param1.value, match: " land$") or contains(param1.value, match: "Snow") or contains(param1.value, match:"Basic") or contains(param1.value, match:"Legendary") then "{to_lower(param1)}" else "{param1}"}.
+#keyword:
+	#keyword: Protection from
+	#match: Protection from <atom-param>name</atom-param>
+	#mode: expert
+	#reminder: {protection_code(param1.value)}.
+#keyword:
+	#keyword: Cycling
+	#match: Cycling <atom-param>cost</atom-param>
+	#mode: expert
+	#reminder: {param1}, Discard this card: Draw a card.
+#keyword:
+	#keyword: Flashback
+	#match: Flashback <atom-param>cost</atom-param>
+	#mode: expert
+	#reminder: You may cast this card from your graveyard for its flashback cost. Then exile it.
+#keyword:
+	#keyword: Double strike
+	#match: Double strike
+	#mode: core
+	#reminder: {this_or_that("creature", upper:true)} deals both first-strike and regular combat damage.
+#keyword:
+	#keyword: Provoke
+	#match: Provoke
+	#mode: expert
+	#reminder: When this attacks, you may have target creature defending player controls untap and block it if able.
+
